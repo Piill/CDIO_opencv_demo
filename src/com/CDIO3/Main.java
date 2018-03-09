@@ -25,9 +25,10 @@ public class Main {
                if(fileEntry.getName().toLowerCase().contains(".jpg")) {
                    QRDetector qr = new QRDetector(fileEntry.getName(), fileEntry.getAbsolutePath());
                    qr.processAll();
+                   String fileName = fileEntry.getName().replace(".jpg", "");
                    qr.draw();
                    qr.drawEdge();
-                   qr.write(path + "/output/" + fileEntry.getName());
+
                }
            }
            HighGui.waitKey(0);

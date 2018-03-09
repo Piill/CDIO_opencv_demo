@@ -42,12 +42,10 @@ public class ContourTree {
         }
     }
 
-    public void drawBoundingIfChildren(Mat img) {
+    public void drawBoundingIfChildren(Mat img, int reqDepth) {
         for(ContourTree current = this; current != null; current = current.Sibling) {
-            if(current.getDepth() >= 2 ) {
+            if(current.getDepth() >= reqDepth ) {
                 MatOfPoint2f newContour = new MatOfPoint2f(current.contour.toArray());
-                //Rect rect = Imgproc.boundingRect(current.contour);
-                //Imgproc.rectangle(img, new Point(rect.x,rect.y), new Point(rect.x+ rect.width, rect.y+rect.height), new Scalar(255, 100, 10), 2);
 
                 RotatedRect rotatedRect = Imgproc.minAreaRect(newContour);
                 Point[] points = new Point[4];
@@ -55,7 +53,7 @@ public class ContourTree {
                 MatOfPoint a = new MatOfPoint(points);
                 Imgproc.drawContours(img, Arrays.asList(a), -1, new Scalar(100,255, 100), 2);
 
-                current.Child.drawBoundingIfChildren(img);
+                current.Child.drawBoundingIfChildren(img, reqDepth);
             }
         }
     }
